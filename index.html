@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ULTRA VIRAL ARCHITECT v0.1
- — Complete Instruction Manual</title>
+  <title>ULTRA VIRAL ARCHITECT v0.1 — Complete Instruction Manual</title>
   <style>
     :root{--bg:#0f1724;--card:#0b1220;--accent:#22c1ff;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
     html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
@@ -25,17 +24,14 @@
   <div class="wrap">
     <header>
       <div>
-        <h1>ULTRA VIRAL ARCHITECT v0.1
-</h1>
-        <p class="lead">Click Copy to copy the entire ULTRA VIRAL ARCHITECT v0.1
- specification to your clipboard.</p>
+        <h1>ULTRA VIRAL ARCHITECT v0.1</h1>
+        <p class="lead">Click Copy to copy the entire ULTRA VIRAL ARCHITECT v0.1 specification to your clipboard.</p>
       </div>
     </header>
 
     <div class="card">
       <div class="controls">
-        <button id="copyBtn">Copy ULTRA VIRAL ARCHITECT v0.1
-Text</button>
+        <button id="copyBtn">Copy ULTRA VIRAL ARCHITECT v0.1 Text</button>
         <button id="selectBtn" class="ghost">Select All</button>
         <button id="downloadBtn" class="ghost">Download .md</button>
       </div>
@@ -206,8 +202,7 @@ Iteration: Adjust based on AURA and MLF feedback.
 </pre>
 
       <footer>
-        <small>Click Copy to copy all content. Download creates a markdown file of ULTRA VIRAL ARCHITECT v0.1
-.</small>
+        <small>Click Copy to copy all content. Download creates a markdown file of ULTRA VIRAL ARCHITECT v0.1.</small>
       </footer>
     </div>
   </div>
@@ -219,19 +214,27 @@ Iteration: Adjust based on AURA and MLF feedback.
     const downloadBtn = document.getElementById('downloadBtn');
 
     copyBtn.addEventListener('click', async () => {
+      const text = contentEl.textContent;
       try {
-        await navigator.clipboard.writeText(contentEl.innerText);
-        copyBtn.textContent = 'Copied';
-        setTimeout(() => copyBtn.textContent = 'Copy ULTRA VIRAL ARCHITECT v0.1
- Text', 1500);
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy ULTRA VIRAL ARCHITECT v0.1 Text', 1500);
       } catch (err) {
-        const range = document.createRange();
-        range.selectNodeContents(contentEl);
-        const sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-        document.execCommand('copy');
-        sel.removeAllRanges();
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => copyBtn.textContent = 'Copy ULTRA VIRAL ARCHITECT v0.1 Text', 1500);
+        } catch (e) {
+          console.error('Copy failed', e);
+        }
+        document.body.removeChild(textarea);
       }
     });
 
@@ -244,14 +247,15 @@ Iteration: Adjust based on AURA and MLF feedback.
     });
 
     downloadBtn.addEventListener('click', () => {
-      const blob = new Blob([contentEl.innerText], {type: 'text/markdown;charset=utf-8'});
+      const text = contentEl.textContent;
+      const blob = new Blob([text], {type: 'text/markdown;charset=utf-8'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = 'virality-agent.md';
       document.body.appendChild(a);
       a.click();
-      a.remove();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
     });
   </script>
